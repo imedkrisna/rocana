@@ -1,0 +1,106 @@
+---
+title: "work"
+format: pptx
+---
+
+## Data
+
+```{r}
+library(tidyverse)
+library(readxl)
+library(dynlm)
+dat<-read_excel('plan.xlsx',sheet='SEKI')
+dat2<-dat|>select(gmr,chn,usa,bi,fed,rate,xr)
+
+plot.ts(dat2)
+```
+
+## PDB co-movement
+
+```{r}
+lm(data=dat,pdbmr~chn+usa)|>summary()
+```
+
+## Situasi Makro
+
+```{r}
+lm(data=dat,pdbmr~xr+bi+fed)|>summary()
+```
+
+## Gabungan
+
+```{r}
+lm(data=dat,pdbmr~chn+usa+xr+bi+fed)|>summary()
+```
+
+## PDB non-migas
+
+- PDB non-migas bergerak bersamaan dengan secara negatif dengan PDB RRT, positif dengan PDB USA. Artinya:
+
+    - Pertumbuhan RRT berhubungan terbalik dengan manufaktur Indonesia. Menguntungkan sektor komoditas namun menjadi kompetisi impor bagi manufaktur non-migas
+    
+    - USA sebagai main buyer produk manufaktur Indonesia merupakan ekonomi yang sangat penting.
+    
+- Kedua wilayah ini merupakan faktor yang signifikan terhadap kinerja manufaktur.
+
+## PDB non-migas {.m}
+
+- Situasi makro sangat berpengaruh terhadap kinerja sektor manufaktur
+
+- Nilai tukar berpengaruh signifikan dan positif, artinya rupiah yang **melemah** baik untuk pertumbuhan manufaktur secara umum.
+
+    - rupiah yang lemah memberikan competitive advantage karena harga produk Indonesia jadi relatif murah
+    
+- bi-rate berpengaruh signifikan negatif, sementara fed rate positif.
+
+    - pinjaman murah penting utk manufaktur terutama yang capital intensive
+    
+- fed rate tinggi -> USD mahal relatif thd rupiah -> barang Indonesia jadi kompetitif.
+
+## Caveats
+
+- akan dicoba utk data kuartalan
+
+- belum ada treatment time-series (spurious relationship masih mungkin)
+
+- tapi yang jelas, utk Kemenperin, situasi global sangat penting diperhitungkan dalam memperhitungkan ketercapaian indikator kinerja kementerian,
+
+## Share PDB
+
+variable (all real) | 22 |	23 |	24 |	25 |	26	| 27	| 28	| 29 |
+| ------ | --- | --- | --- | --- | --- | --- | --- | --- |
+Kontribusi industri non-migas |	18.66 |	18.60 |	17.9 |	18.15 |	18.71 |	19.26 |	19.81 |	20.36 |
+PDB industri non migas |  11,710,248 | 	  12,301,394 | 	  13,521,476 | 	  14,191,352 | 	  14,664,180 | 	  15,187,043 | 	  15,751,722 | 	  16,360,728 | 
+Pertumbuhan industri non-migas | - |	4.69 |	5.80 |	6.42 |	6.52 |	6.61 |	6.68 |	6.75 |
+pertumbuhan PDB | - |	5.05 |	9.92 |	4.95 |	3.33 |	3.57 |	3.72 |	3.87 |
+
+## Share {.m}
+
+- Supaya target pertumbuhan manufaktur non-migas rata-rata di atas 6% DAN kontribusi yang ada di sekitar 18-20%, maka pertumbuhan ekonomi secara umum harus rendah.
+
+- Untuk memastikan bahwa target pertumbuhan manufaktur non-migas dan kontribusi sesuai dengan KIN, maka pertumbuhan ekonomi harus di bawah 4%, jauh di bawah rancangan teknokratik RPJMN di 5,6-6,1%. 
+
+- Artinya, desain indikator makro sebagai sasaran kinerja sudah salah dari awal. Indikator kontribusi per PDB menginstitusionalkan pemikiran ”zero-sum game” untuk Kementerian/Lembaga (supaya saya naik, maka yang harus turun).
+
+## Bias growth {.m}
+
+- seperti kasus China, Indonesia mengalami biased growth / dutch disease:
+
+- Pertumbuhan China yg cepat membantu Indonesia di sektor komoditas -> strong exchange rate -> manufaktur menderita.
+
+- bias growth: pertumbuhan yang cepat didorong 1 sektor, di sisi lain sektor lain melambat, bahkan mendapat kompetisi.
+
+- Indonesia perlu menentukan apakah bias growth ini akan dibiarkan (tumbuh tapi fokus di sektor non-manufaktur).
+
+- Jika semua sepakat bahwa fokus harus diarahkan ke manufaktur, barulah koordinasi kebijakan dilakukan agar bias growth against manufaktur bisa diubah, dan deindustrialisasi bisa diatasi.
+
+## ket
+
+| var | satuan | ket | source |
+| --- | --- | ------------------ | ---- |
+| pdbmr | milyar 2010 IDR | PDB riil manufaktur non-migas constant price | SEKI |
+| chn | % | pertumbuhan PDB Republik Rakyat Tiongkok |
+| usa | % | pertumbuhan PDB Amerika Serikat |
+| xr | IDR/USD | nilai tukar rupiah terhadap dolar: naik berarti depresiasi |
+| bi | % | policy rate Bank Indonesia |
+| fed | % | policy rate Federal Reserve of USA |
