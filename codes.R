@@ -13,7 +13,7 @@ indi<-c(            # membuat dictionary
 )
 
 dat<-WDI(           # Menarik data World Bank
-  country=c("WLD","IDN","CHN","VNM","MYS","THA","IND","JPN","KOR"),
+  country=c("WLD","IDN","CHN","VNM","MYS","THA","IND"),
   indicator=indi,
   start=2002,end=2022
 )
