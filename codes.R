@@ -23,14 +23,14 @@ dat2<-WDI(           # Menarik data World Bank
   start=2002,end=2022
 )
 
-dat$manx<-dat$manex/dat$manexp
-dat2$manxw<-dat2$manex/dat2$manexp
+dat$manx<-dat$manex*dat$manexp/100
+dat2$manxw<-dat2$manex*dat2$manexp/100
 
-dat3<-inner_join(dat,dat2,by="year",keep = F)
+dat2<-dat2|>select(year,manxw)
+
+dat3<-inner_join(dat,dat2,by="year")
 
 dat |>
   filter(country!="World" & country!="China") |>
-  ggplot(aes(x=year,y=manex,color=country))+geom_line(linewidth=1.1)+theme_classic()
+  ggplot(aes(x=year,y=manx,color=country))+geom_line(linewidth=1.1)+theme_classic()
 
-dat$LPDB<-log(dat$PDB) # menambahkan transformasi log
-dat$Limport<-log(dat$import)
