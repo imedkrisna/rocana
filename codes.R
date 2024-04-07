@@ -3,6 +3,7 @@ setwd('C:/github/rocana')
 library(WDI)
 library(tidyverse)
 library(scales)
+library(readxl)
 
 ## Global manufacturing exports
 
@@ -45,3 +46,20 @@ dat3 |>
 
 ggsave("fig/exports.png")
 
+read_excel("plan.xlsx",sheet="SEKI") |>
+  select(tahun,fed,bi,eu,uk) |>
+  pivot_longer(!tahun,names_to = "country",values_to = "rate") |>
+  ggplot(aes(x=tahun,y=rate,color=country))+geom_line(linewidth=1.1)+
+  scale_y_continuous(limits=c(0,8))+scale_x_continuous(breaks=seq(2010,2023,2))+
+  scale_color_discrete(labels=c("IDN","USA","UK","EU"))+
+  labs(x="",y="%",
+       caption="sumber: SEKI")+theme_classic()
+ggsave("fig/fedrate.png")
+
+read_excel("plan.xlsx",sheet="skewed") |>
+  pivot_longer(!sektor,names_to = "year",values_to="value") |>
+  ggplot(aes(x=year,y=value,group=sektor,color=sektor))+geom_line(linewidth=1.1)+
+  labs(x="",y="growth (%)",
+       caption="sumber: BPS")+theme_classic()+theme(legend.position = "bottom")+
+  guides(color=guide_legend(nrow=4, byrow=TRUE))
+ggsave("fig/skewed.png",width=8,height=6)
