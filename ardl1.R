@@ -61,6 +61,10 @@ lll<-list(
 
 modelsummary(lll,stars=TRUE,output="reg/levelmodel.xlsx")
 
+## Sektor mamintem
+
+
+
 ## Growth
 
 
